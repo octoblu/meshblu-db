@@ -1,0 +1,31 @@
+{
+  "name": "meshblu-db",
+  "version": "1.0.0",
+  "description": "Meshblu as a database",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/octoblu/meshblu-db.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/octoblu/meshblu-db/issues"
+  },
+  "homepage": "https://github.com/octoblu/meshblu-db",
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "coffee-script": "^1.9.1",
+    "mocha": "^2.1.0",
+    "sinon": "^1.12.2",
+    "sinon-chai": "^2.7.0"
+  },
+  "dependencies": {
+    "coffee-script": "^1.9.1",
+    "debug": "^2.1.1",
+    "lodash": "^3.3.1"
+  }
+}
