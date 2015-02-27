@@ -6,7 +6,8 @@ class MeshbluDb
 
   find: (query, callback=->)=>
     @meshblu.devices query, (response) =>
-      return callback new Error response.error if response.error
+      debug response
+      return callback new Error response.error?.message if response.error?
       callback null, response.devices
 
   findOne: (query, callback=->)=>
@@ -14,7 +15,7 @@ class MeshbluDb
 
   update: (device, callback=->) => 
     @meshblu.update device, (response) =>
-      return callback new Error(response.error) if response.error && !response.uuid 
+      return callback new Error(response.error?.message) if response.error? && !response.uuid 
       callback null, response    
 
   insert: (record, callback=->) =>
