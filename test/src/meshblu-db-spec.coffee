@@ -4,15 +4,42 @@ describe 'MeshbluDb', ->
   beforeEach ->
     @meshblu = {}
     @meshblu.register = sinon.stub()
+    @meshblu.on = (eventName, callback) =>
+      @meshblu[eventName] = callback
     @sut = new MeshbluDb @meshblu
 
   describe 'constructor', ->
     it 'should instantiate a MeshbluDb', ->
       expect(@sut).to.exist
 
+    it 'should set isConnected to true', ->
+      expect(@sut.isConnected).to.be.true
+
+  describe 'when meshblu.on fires a disconnect', ->
+    beforeEach ->
+      @meshblu.disconnect()
+
+    it 'should set isConnected to false on disconnect', ->
+      expect(@sut.isConnected).to.be.false
+
+  describe 'when meshblu.on fires a ready', ->
+    beforeEach ->
+      @meshblu.ready()
+
+    it 'should set isConnected to true', ->
+      expect(@sut.isConnected).to.be.true
+
   describe '->find', ->
     it 'should exist', ->
       expect(@sut.find).to.exist
+
+    describe 'when it is disconnected from meshblu', ->
+      beforeEach (done) ->
+        @meshblu.disconnect()
+        @sut.find {}, (@error) => done()
+
+      it 'should throw an error', ->
+        expect(@error).to.exist
 
     describe 'when called with a property "type"', ->
       beforeEach ->
@@ -92,6 +119,14 @@ describe 'MeshbluDb', ->
     it 'should exist',  ->
       expect(@sut.insert).to.exist
 
+    describe 'when it is disconnected from meshblu', ->
+      beforeEach (done) ->
+        @meshblu.disconnect()
+        @sut.insert {}, (@error) => done()
+
+      it 'should throw an error', ->
+        expect(@error).to.exist
+
     describe 'when called', ->
       beforeEach ->
         @uuid = '84DA55'
@@ -122,6 +157,14 @@ describe 'MeshbluDb', ->
   describe '->update', ->
     it 'should exist', ->
       expect(@sut.update).to.exist
+
+    describe 'when it is disconnected from meshblu', ->
+      beforeEach (done) ->
+        @meshblu.disconnect()
+        @sut.update {}, (@error) => done()
+
+      it 'should throw an error', ->
+        expect(@error).to.exist
 
     describe 'when called', ->
       beforeEach (done) ->        
