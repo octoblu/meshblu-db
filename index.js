@@ -1,2 +1,2 @@
 require('coffee-script/register')
-module.exports = require('./src/meshblu.coffee-script')
+module.exports = require('./src/meshblu-db')
