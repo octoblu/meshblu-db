@@ -1,6 +1,6 @@
 {
   "name": "meshblu-db",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Meshblu as a database",
   "main": "index.js",
   "scripts": {
