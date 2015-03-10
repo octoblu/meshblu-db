@@ -1,0 +1,12 @@
+language: node_js
+sudo: false
+node_js:
+- '0.10'
+deploy:
+  provider: npm
+  email: sqrt@octoblu.com
+  api_key:
+    secure: Mxpi2e3i9zP/jgWpGImnQr1q9RzrtxhQkXdrQAg3XOCetFZh6C1WdJXH88fAIXuOOv3erb4wupjMqXiqxUXDpxHI6zc/TU0R0BlJyXokRJd33r27zrPOG45oPlvXBhVAT6RX2//hk2EgW82g1jN19bMtZFXmesCNSugKcYT6jG4=
+  on:
+    tags: true
+    repo: octoblu/meshblu-db
