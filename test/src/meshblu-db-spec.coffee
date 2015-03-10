@@ -155,21 +155,24 @@ describe 'MeshbluDb', ->
             expect(@callback).to.have.been.calledWith null, @device
 
   describe '->update', ->
+    beforeEach ->
+      @meshblu.devices = sinon.stub().yields {devices:[{}]}
+
     it 'should exist', ->
       expect(@sut.update).to.exist
 
     describe 'when it is disconnected from meshblu', ->
       beforeEach (done) ->
         @meshblu.disconnect()
-        @sut.update {}, (@error) => done()
+        @sut.update {}, {}, (@error) => done()
 
       it 'should throw an error', ->
         expect(@error).to.exist
 
     describe 'when called', ->
-      beforeEach (done) ->        
+      beforeEach (done) ->
         @meshblu.update = sinon.stub().yields( peter: 'wrong' )
-        @sut.update({ uuid: 'trapped in a blizzard'}, (@error, @device) => done())
+        @sut.update({}, { uuid: 'trapped in a blizzard'}, (@error, @device) => done())
 
       it 'should not yield an error', ->
         expect(@error).to.not.exist
@@ -181,17 +184,17 @@ describe 'MeshbluDb', ->
         expect(@meshblu.update).to.have.been.calledWith { uuid: 'trapped in a blizzard' }
 
     describe 'when called and meshblu yields a different device', ->
-      beforeEach (done) ->        
+      beforeEach (done) ->
         @meshblu.update = sinon.stub().yields( peter: 'not-so-right' )
-        @sut.update({ uuid: 'trapped not in a blizzard'}, (@error, @device) => done())
+        @sut.update({}, { uuid: 'trapped not in a blizzard'}, (@error, @device) => done())
 
       it 'should not yield the device', ->
         expect(@device).to.deep.equal peter: 'not-so-right'
 
     describe 'when called and meshblu yields an error', ->
-      beforeEach (done) ->        
+      beforeEach (done) ->
         @meshblu.update = sinon.stub().yields( error: 'Peter is usually incorrect' )
-        @sut.update({ uuid: 'trapped not in a blizzard'}, (@error, @device) => done())
+        @sut.update({}, { uuid: 'trapped not in a blizzard'}, (@error, @device) => done())
 
       it 'should yield an error', ->
         expect(@error).to.exist
@@ -203,7 +206,7 @@ describe 'MeshbluDb', ->
       beforeEach ->
         @callback = sinon.spy()
         @meshblu.update = sinon.stub().yields { uuid: 'trapped in confusing firestorm'}
-        @sut.update({ uuid: 'trapped in a firestorm'}, @callback)
+        @sut.update({}, { uuid: 'trapped in a firestorm'}, @callback)
 
       it 'should call the callback', ->
         expect(@callback).to.have.been.called

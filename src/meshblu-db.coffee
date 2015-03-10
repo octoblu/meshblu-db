@@ -21,11 +21,14 @@ class MeshbluDb
   findOne: (query, callback=->)=>
     @find query, (error, devices) => callback error, _.first(devices)
 
-  update: (device, callback=->) => 
+  update: (query, record, callback=->) =>
     return _.defer(callback, new Error 'not connected') unless @isConnected
-    @meshblu.update device, (response) =>
-      return callback new Error(response.error?.message) if response.error? && !response.uuid 
-      callback null, response    
+    @findOne query, (error, device) =>
+      return callback error, null if error
+      extendedDevice = _.extend device, record
+      @meshblu.update extendedDevice, (response) =>
+        return callback new Error(response.error?.message) if response.error? && !response.uuid
+        callback null, response
 
   insert: (record, callback=->) =>
     return _.defer(callback, new Error 'not connected') unless @isConnected
