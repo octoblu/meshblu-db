@@ -1,6 +1,6 @@
 {
   "name": "meshblu-db",
-  "version": "1.2.1",
+  "version": "2.0.0",
   "description": "Meshblu as a database",
   "main": "index.js",
   "scripts": {
@@ -26,6 +26,7 @@
   "dependencies": {
     "coffee-script": "^1.9.1",
     "debug": "^2.1.1",
-    "lodash": "^3.3.1"
+    "lodash": "^3.3.1",
+    "meshblu-http": "^2.4.0"
   }
 }
