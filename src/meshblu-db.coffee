@@ -6,15 +6,31 @@ class MeshbluDb
     @MeshbluHttp = dependencies.MeshbluHttp ? require 'meshblu-http'
     @meshbluHttp = new @MeshbluHttp meshbluJSON
 
-  find: (query, callback=->)=>
+  find: (query, callback=->) =>
     debug "Requesting devices with #{JSON.stringify(query)}"
     @meshbluHttp.devices query, (error, response) =>
       debug response
       return callback error if error?
       callback null, response.devices
 
-  findOne: (query, callback=->)=>
+  findOne: (query, callback=->) =>
     @find query, (error, devices) => callback error, _.first(devices)
+
+  generateAndStoreToken: (deviceUuid, callback=->) =>
+    @meshbluHttp.generateAndStoreToken deviceUuid, callback
+
+  insert: (record, callback=->) =>
+    debug "writing", record
+    @meshbluHttp.register record, (error, device) =>
+      debug "insert response", device
+      return callback error if error?
+      callback null, device
+
+  sign: (data) =>
+    @meshbluHttp.sign data
+
+  setPrivateKey: (privateKey) =>
+    @meshbluHttp.setPrivateKey privateKey
 
   update: (query, record, callback=->) =>
     @findOne query, (error, device) =>
@@ -24,11 +40,7 @@ class MeshbluDb
         return callback error if error?
         callback null, response
 
-  insert: (record, callback=->) =>
-    debug "writing", record
-    @meshbluHttp.register record, (error, device) =>
-      debug "insert response", device
-      return callback error if error?
-      callback null, device
+  verify: (message, signature) =>
+    @meshbluHttp.verify message, signature
 
 module.exports = MeshbluDb
