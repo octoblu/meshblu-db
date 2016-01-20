@@ -19,13 +19,13 @@ class MeshbluDb
       callback null, response.devices
 
   findOne: (query, callback=->)=>
-    @find query, (error, devices) => callback error, _.first(devices)
+    @find query, (error, devices) => callback error, _.last(devices)
 
-  update: (device, callback=->) => 
+  update: (device, callback=->) =>
     return _.defer(callback, new Error 'not connected') unless @isConnected
     @meshblu.update device, (response) =>
-      return callback new Error(response.error?.message) if response.error? && !response.uuid 
-      callback null, response    
+      return callback new Error(response.error?.message) if response.error? && !response.uuid
+      callback null, response
 
   insert: (record, callback=->) =>
     return _.defer(callback, new Error 'not connected') unless @isConnected
