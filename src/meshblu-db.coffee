@@ -14,7 +14,7 @@ class MeshbluDb
       callback null, response.devices
 
   findOne: (query, callback=->) =>
-    @find query, (error, devices) => callback error, _.first(devices)
+    @find query, (error, devices) => callback error, _.last(devices)
 
   generateAndStoreToken: (deviceUuid, callback=->) =>
     @meshbluHttp.generateAndStoreToken deviceUuid, callback
